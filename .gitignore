@@ -1,0 +1,9 @@
+# Environment and secrets
+.env
+
+# Runtime data
+data/
+workspace/
+
+# macOS
+.DS_Store

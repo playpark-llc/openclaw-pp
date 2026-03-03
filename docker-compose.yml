@@ -1,0 +1,76 @@
+services:
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:2026.3.2
+    container_name: openclaw
+    restart: unless-stopped
+    user: "1000:1000"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    ports:
+      - "127.0.0.1:18789:18789"
+    env_file:
+      - .env
+    volumes:
+      - ./config/openclaw.json:/home/node/.openclaw/openclaw.json:ro
+      - ./cron:/home/node/.openclaw/cron:ro
+      - ./data/credentials:/home/node/.openclaw/credentials:rw
+      - ./data/identity:/home/node/.openclaw/identity:rw
+      - ./data/memory:/home/node/.openclaw/memory:rw
+      - ./data/agents:/home/node/.openclaw/agents:rw
+      - ./data/media:/home/node/.openclaw/media:rw
+      - ./data/logs:/home/node/.openclaw/logs:rw
+      - ./data/browser:/home/node/.openclaw/browser:rw
+      - ./data/canvas:/home/node/.openclaw/canvas:rw
+      - ./data/devices:/home/node/.openclaw/devices:rw
+      - ./workspace:/home/node/.openclaw/workspace:rw
+      - skills:/home/node/.openclaw/skills:ro
+    tmpfs:
+      - /tmp:size=512M
+      - /home/node/.npm:size=256M
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:18789/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  openclaw-cli:
+    image: ghcr.io/openclaw/openclaw:2026.3.2
+    profiles:
+      - cli
+    user: "1000:1000"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    env_file:
+      - .env
+    volumes:
+      - ./config/openclaw.json:/home/node/.openclaw/openclaw.json:ro
+      - ./cron:/home/node/.openclaw/cron:ro
+      - ./data/credentials:/home/node/.openclaw/credentials:rw
+      - ./data/identity:/home/node/.openclaw/identity:rw
+      - ./data/memory:/home/node/.openclaw/memory:rw
+      - ./data/agents:/home/node/.openclaw/agents:rw
+      - ./workspace:/home/node/.openclaw/workspace:rw
+      - skills:/home/node/.openclaw/skills:ro
+    tmpfs:
+      - /tmp:size=512M
+      - /home/node/.npm:size=256M
+    entrypoint: ["openclaw"]
+
+volumes:
+  skills:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${SKILLS_PATH:-/Users/naramotoyuuji/ghq/github.com/it-all-playpark/skills}
