@@ -64,14 +64,6 @@
       }
     }
   },
-  "sandbox": {
-    "mode": "non-main",
-    "deny_paths": [
-      "/home/node/.openclaw/credentials",
-      "/home/node/.openclaw/identity",
-      "/home/node/.openclaw/.env"
-    ]
-  },
   "messages": {
     "ackReactionScope": "group-mentions"
   },
