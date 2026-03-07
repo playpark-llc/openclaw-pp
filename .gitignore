@@ -1,6 +1,9 @@
 # Environment and secrets
 .env
 
+# Local config (copy from *.example.json)
+config/openclaw.json
+
 # Runtime data
 data/
 workspace/

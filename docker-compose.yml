@@ -73,4 +73,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${SKILLS_PATH:-/Users/naramotoyuuji/ghq/github.com/it-all-playpark/skills}
+      device: ${SKILLS_PATH:?SKILLS_PATH must be set in .env}

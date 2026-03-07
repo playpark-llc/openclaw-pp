@@ -87,19 +87,7 @@
         "#random": {
           "allow": true
         },
-        "0-colle": {
-          "allow": true
-        },
-        "kazoeru-kun": {
-          "allow": true
-        },
-        "税務相談用": {
-          "allow": true
-        },
-        "shift-bud": {
-          "allow": true
-        },
-        "test": {
+        "my-project": {
           "allow": true
         }
       }
